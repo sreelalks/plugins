@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Custom Tooltip</title>
+	<style type="text/css">
+.tips:before {
+	content: "";
+	display: inline-block;
+	position: absolute;
+}
+.tips {
+	display: inline-block;
+	position: absolute;
+	z-index: 9999;
+	min-width: 100px;
+	max-width: 100%;
+	padding: 5px 8px;
+	color: #fff;
+	text-align: center;
+	text-decoration: none;
+	background: rgba(0, 0, 0, 0.5);
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	border-radius: 4px;
+	font-size: 12px;
+}
+.tips:before {
+	content: "";
+	display: inline-block;
+	position: absolute;
+}
+.tips.top:before {
+	border-left: 6px solid transparent;
+	border-right: 6px solid transparent;
+	border-top: 6px solid rgba(0, 0, 0, 0.5);
+	bottom: -6px;
+	left: 49%;
+}
+.tips.left:before {
+	border-bottom: 6px solid transparent;
+	border-left: 6px solid rgba(0, 0, 0, 0.5);
+	border-top: 6px solid transparent;
+	bottom: 9px;
+	left: auto;
+	right: -13px;
+}
+.tips.bottom:before {
+	border-top: none;
+	border-bottom: 6px solid rgba(0, 0, 0, 0.5);
+	border-left: 6px solid transparent;
+	border-right: 7px solid transparent;
+	bottom: auto;
+	left: 47%;
+	top: -6px;
+}
+.tips.right:before {
+	border-bottom: 6px solid transparent;
+	border-right: 6px solid rgba(0, 0, 0, 0.5);
+	border-top: 6px solid transparent;
+	bottom: 9px;
+	right: auto;
+	left: -12px;
+}
+	</style>
+</head>
+<body>
+<div style="margin: 20%;">
+<span  data-role="tooltip" data-title="Lorem ipsum" data-placement="bottom">Hover</span>
+</div>
+
+<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+<script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>	
+
+	<script type="text/javascript">	 
+            var body = $('body');
+            body.on('hover', '[data-role="tooltip"]', function() {
+            	
+                var ts = $(this);
+                var eleWidth = ts.outerWidth();
+                var eleHeight = ts.outerHeight();
+                var positionTop = ts.offset().top;
+                var positionLeft = ts.offset().left;
+                var title = ts.data("title");
+                var placement = ts.data("placement");
+                var item = $('<span class="tips">' + title + '</span>').hide();
+                if ($(this).find('.tips').length == 0) {
+                    body.append(item);
+                    item.fadeIn(500);
+                    var tipWidth = $('.tips').outerWidth();
+                    var tipHeight = $('.tips').outerHeight();
+                    if (ts.not('data-placement') || placement == '' || placement == 'top') {
+                        $('.tips').addClass('top').css({
+                            top: positionTop - (tipHeight + 10),
+                            left: positionLeft + (eleWidth / 2 - tipWidth / 2)
+                        });
+                    }
+                    if (placement == 'right') {
+                        $('.tips').addClass('right').css({
+                            top: positionTop + (eleHeight / 2 - tipHeight / 2),
+                            left: positionLeft + (eleWidth + 10)
+                        });
+                        $('.tips').removeClass('top');
+                    }
+                    if (placement == 'bottom') {
+                        $('.tips').addClass('bottom').css({
+                            top: positionTop + (eleHeight + 10),
+                            left: positionLeft + (eleWidth / 2 - tipWidth / 2)
+                        });
+                        $('.tips').removeClass('top');
+                    } 
+                    if (placement == 'left') {
+                        $('.tips').addClass('left').css({
+                             top: positionTop + (eleHeight / 2 - tipHeight / 2),               
+                            left: positionLeft - (tipWidth + 10)
+                        });
+                        $('.tips').removeClass('top');
+                    }
+                };
+            });
+            body.on('mouseleave', '[data-role="tooltip"]', function() {                
+                   // $('.tips').removeClass('top right bottom left');
+                    $('.tips').remove();                 
+            });    
+    </script>
+</body>
+</html>
