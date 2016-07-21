@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">    
+    <link href="style.css" rel="stylesheet" type="text/css">    
+    <style type="text/css">
+    .progress-loader { height: 5px; left: 0px; position: fixed; right: 0; top: 0px; z-index: 99; }
+    .progress-loader .progress-bar { background: #4caf50; bottom: 0; display: inline-block; height: 100%; left: 0; position: absolute; right: 0; top: 0; width:0; }    
+    </style>
+   </head>
+  <body>    
+    <div class="progress-loader">
+      <div class="progress-bar" data-role="progress"></div>
+    </div>
+    
+    <script type="text/javascript">
+    var start = new Date();
+    $(window).load(function() {
+    var $lt = new Date() - start;
+    $('[data-role="progress"]').animate({
+    width: "100%"
+    }, $lt);
+    setTimeout(function(){
+    $('[data-role="progress"]').fadeOut();
+    },$lt);
+    });
+    </script>
+  </body>
+</html>  
