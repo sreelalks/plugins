@@ -1,0 +1,170 @@
+ <html>
+<head>
+<title>Slider</title>
+<link rel="stylesheet" href="slider.css">
+<style>
+body {
+  background-color: #ccc;
+  margin: 0;
+}
+.slider {
+  width: 100%;
+  overflow: hidden;
+  height: 300px;
+  position: relative;
+}
+
+.slider ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  position: absolute;
+  width: 300%;
+  height: 100%;
+  top: 0;
+}
+
+.slider li {
+  padding: 0;
+  margin: 0;
+  width: 33.333333%;
+  height: 100%;
+  overflow: hidden;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  border: none;
+}
+
+.slider li img {
+  border: none;
+  width: 100%;
+  min-height: 100%;
+}
+
+.slider button {
+  position: absolute;
+  display: block;
+  box-sizing: border-box;
+  border: none;
+  outline: none;
+  top: 0;
+  bottom: 0;
+  width: 20%;
+  background-color: rgba(0, 0, 0, 0.3);
+  color: #fff;
+  margin: 0;
+  padding: 0;
+  text-align:center;
+  opacity: 0;
+  z-index: 2;
+}
+
+.slider button.prev {
+  left: 0;
+}
+
+.slider button.next {
+  right: 0;
+}
+
+.slider button:hover, .slider button:active {
+  opacity: 1.0;
+}
+
+.slider .content {
+  z-index: 3;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 3em;
+  box-sizing: border-box;
+  background-color: rgba(0, 0, 0, 0.5);
+  color: #fff;
+  line-height: 3em;
+  padding: 0 1em;
+  font-size: 1.5em;
+}
+
+.slider .content a {
+  color: inherit;
+}
+
+
+
+</style>
+</head>
+<body>
+
+<div class="container">
+
+
+<div class="slider">
+  <ul>
+    <li>
+      <img src="http://ca.france.fr/sites/default/files/imagecache/ATF_Image_bandeau_v2/la_france_cote_nature_6.jpg" />
+      <div class="content">Slide One</div>
+    </li>
+    <li>
+      <img src="http://ca.france.fr/sites/default/files/imagecache/ATF_Image_bandeau_v2/activites_de_pleine_nature_6.jpg" />
+      <div class="content">Slide One</div>
+    </li>
+    <li>
+      <img src="http://ca.france.fr/sites/default/files/imagecache/ATF_Image_bandeau_v2/la_france_cote_nature_6.jpg" />
+      <div class="content">Slide One</div>
+    </li>
+  </ul>
+  <button class="prev">prev</button>
+  <button class="next">next</button>
+</div>
+
+</div>
+
+<script src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
+<script>
+$(function() {
+
+  var ul = $(".slider ul");
+  var slide_count = ul.children().length;
+  var slide_width_pc = 100.0 / slide_count;
+  var slide_index = 0;
+
+  ul.find("li").each(function(indx) {
+    var left_percent = (slide_width_pc * indx) + "%";
+    $(this).css({"left":left_percent});
+    $(this).css({width:(100 / slide_count) + "%"});
+  });
+
+  // Listen for click of prev button
+  $(".slider .prev").click(function() {
+    console.log("prev button clicked");
+    slide(slide_index - 1);
+  });
+
+  // Listen for click of next button
+  $(".slider .next").click(function() {
+    console.log("next button clicked");
+    slide(slide_index + 1);
+  });
+
+  function slide(new_slide_index) {
+
+    if(new_slide_index < 0 || new_slide_index >= slide_count) return; 
+
+    var margin_left_pc = (new_slide_index * (-100)) + "%";
+
+    ul.animate({"margin-left": margin_left_pc}, 400, function() {
+
+      slide_index = new_slide_index
+
+    });
+
+  }
+
+});
+
+</script>
+
+</body>
+</html>
